@@ -12,13 +12,9 @@ using System.Threading.Tasks;
 
 namespace DataCollector.Collector
 {
-    public class Collector
+    public class Data
     {
-        public Collector() {
-            List<Coin> Items = new List<Coin>();
-        }
-
-        public static async Task<Coin> GetCoinsAsync()
+        public  async Task GetCoinsAsync()
         {
             using (var client = new HttpClient())
             {
@@ -29,9 +25,20 @@ namespace DataCollector.Collector
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStringAsync();
-                    Coins obj = (Coins)JsonConvert.DeserializeObject<Coins>(data);
+                    Coins list = new Coins();
+                    Coins Items = JsonConvert.DeserializeObject<Coins>(data);
+                    //foreach (var coin in Items)
+                    //{
+                    //    Console.WriteLine(coin.id,":",coin.priceUsd);
+                    //}
+
+                    foreach (var item in Items.data)
+                    {
+                        Console.WriteLine(item.id);
+                        Console.WriteLine(item.priceUsd);
+                    }
+                    
                 }
-                return null;
             }
             //if (response.IsSuccessStatusCode)
             //{

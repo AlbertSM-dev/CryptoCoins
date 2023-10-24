@@ -9,36 +9,49 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace CodeFirstNewDatabaseSample
+namespace DataCollector
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
+            Data collector =  new Data();
             using (var db = new CoinContext())
             {
-                Console.Write("Wait for the coins: ");
-                Collector.GetCoinsAsync().Wait();
-                // Create and save a new Blog
-                Console.Write("Enter a name for a new Coin: ");
-                var id = Console.ReadLine();
-                Console.Write("Enter a price for a new Coin: ");
-                var price = Console.ReadLine();
-
-                var coin = new Coin { id = id, priceUsd = price };
-                db.Coins.Add(coin);
-                db.SaveChanges();
-
-                // Display all Blogs from the database
-                var query = from b in db.Coins
-                            orderby b.id
-                            select b;
-
-                Console.WriteLine("All COINS in the database:");
-                foreach (var item in query)
+                try
                 {
-                    Console.WriteLine(item.id,":", item.priceUsd);
+                    collector.GetCoinsAsync().Wait();
+
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("There was an exception, {0}", ex.ToString());
+                    Console.Read();
+                }
+                //await foreach (var coin in items)
+                //{
+                //   Console.Write(coin.ToString());
+                //}
+                // Create and save a new Blog
+                //Console.Write("Enter a name for a new Coin: ");
+                //var id = Console.ReadLine();
+                //Console.Write("Enter a price for a new Coin: ");
+                //var price = Console.ReadLine();
+
+                //var coin = new Coin { id = id, priceUsd = price };
+                //db.Coins.Add(coin);
+                //db.SaveChanges();
+
+                //// Display all Blogs from the database
+                //var query = from b in db.Coins
+                //            orderby b.id
+                //            select b;
+
+                //Console.WriteLine("All COINS in the database:");
+                //foreach (var item in query)
+                //{
+                //    Console.WriteLine(item.id,":", item.priceUsd);
+                //}
 
                
 
